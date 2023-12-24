@@ -1,22 +1,37 @@
 import { v1 as uuid } from 'uuid';
 
-import { PatientWithoutSSN, NewPatientEntry } from '../types';
+import {
+  PatientWithoutSSN,
+  NewPatientInput,
+  Patient,
+  Entry,
+  EntryWithoutId,
+} from '../types';
+import { parseDiagnosisCodes } from '../utils/utils';
 import patientsData from '../../data/patients';
 
 const getPatients = (): PatientWithoutSSN[] => {
-  return patientsData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-    id,
-    name,
-    dateOfBirth,
-    gender,
-    occupation,
-  }));
+  return patientsData.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+      id,
+      name,
+      dateOfBirth,
+      gender,
+      occupation,
+      entries,
+    })
+  );
 };
 
-const addPatient = (entry: NewPatientEntry): PatientWithoutSSN => {
+const getPatient = (id: string): Patient | undefined => {
+  const foundPatient = patientsData.find((p) => p.id === id);
+  return foundPatient;
+};
+
+const addPatient = (patientEntry: NewPatientInput): PatientWithoutSSN => {
   const newPatientEntry = {
     id: uuid(),
-    ...entry,
+    ...patientEntry,
   };
   patientsData.push(newPatientEntry);
 
@@ -26,5 +41,21 @@ const addPatient = (entry: NewPatientEntry): PatientWithoutSSN => {
   return withoutSSN;
 };
 
-export default { getPatients, addPatient };
+const addEntry = (patientId: string, entry: EntryWithoutId): Entry => {
+  const newEntry: Entry = {
+    ...entry,
+    diagnosisCodes: parseDiagnosisCodes(entry.diagnosisCodes),
+    id: uuid(),
+  };
+  patientsData.forEach((patient) => {
+    if (patient.id === patientId) {
+      // console.log('111111111', patient.entries);
+      patient.entries.push(newEntry);
+      // console.log('2222222222', patient.entries);
+    }
+  });
+  return newEntry;
+};
+
+export default { getPatients, getPatient, addPatient, addEntry };
 
