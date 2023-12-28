@@ -6,20 +6,20 @@ import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 
-import { Patient, Diagnosis, EntryWithoutId } from '../../types';
+import { Patient, EntryWithoutId } from '../../types';
 
 import patientService from '../../services/patients';
+import { usePatientorContext } from '../../state/PatientorContext';
 
 import PatientEntryPage from '../PatientEntriesListPage';
 import AddPatientEntryForm from '../../components/AddPatientEntry/AddPatientEntryForm';
 
-interface PatientInfoPageProps {
-  diagnoses: Diagnosis[];
-}
-
-const PatientInfoPage = ({ diagnoses }: PatientInfoPageProps): JSX.Element => {
+const PatientInfoPage = (): JSX.Element => {
   const [patient, setPatient] = useState<Patient | undefined>();
   const [error, setError] = useState<string>('');
+
+  const { diagnoses } = usePatientorContext();
+
   const id = useParams().id;
 
   useEffect(() => {

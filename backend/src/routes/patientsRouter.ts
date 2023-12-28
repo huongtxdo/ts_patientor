@@ -2,7 +2,8 @@ import express from 'express';
 const router = express.Router();
 
 import patientService from '../services/patientService';
-import { toNewPatientInput, toNewEntryInput } from '../utils/utils';
+import { toNewPatientInput } from '../utils/toNewPatientInput';
+import { toNewEntryInput } from '../utils/toNewEntryInput';
 
 router.get('/', (_req, res) => {
   res.send(patientService.getPatients());

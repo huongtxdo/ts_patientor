@@ -15,18 +15,16 @@ import axios from 'axios';
 import { PatientFormValues, Patient } from '../../types';
 
 import patientService from '../../services/patients';
+import { usePatientorContext } from '../../state/PatientorContext';
 
 import AddPatientModal from '../AddPatientModal';
 import HealthRatingBar from '../HealthRatingBar';
 
-interface Props {
-  patients: Patient[];
-  setPatients: React.Dispatch<React.SetStateAction<Patient[]>>;
-}
-
-const PatientListPage = ({ patients, setPatients }: Props) => {
+const PatientListPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  const { patients, setPatients } = usePatientorContext();
 
   const openModal = (): void => setModalOpen(true);
 

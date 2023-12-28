@@ -1,5 +1,4 @@
 import { v1 as uuid } from 'uuid';
-
 import {
   PatientWithoutSSN,
   NewPatientInput,
@@ -7,7 +6,7 @@ import {
   Entry,
   EntryWithoutId,
 } from '../types';
-import { parseDiagnosisCodes } from '../utils/utils';
+import { parseDiagnosisCodes } from '../utils/toNewEntryInput';
 import patientsData from '../../data/patients';
 
 const getPatients = (): PatientWithoutSSN[] => {
@@ -58,4 +57,3 @@ const addEntry = (patientId: string, entry: EntryWithoutId): Entry => {
 };
 
 export default { getPatients, getPatient, addPatient, addEntry };
-
